@@ -7,6 +7,10 @@ public class Parkinglot {
     private int volume;
 
 
+    public int getParkinglotStatus() {
+        return parkinglotStatus;
+    }
+
     public Parkinglot(int volume) {
         this.volume = volume;
         parkinglotStatus = 0;
@@ -14,34 +18,28 @@ public class Parkinglot {
     }
 
     public boolean isFull() {
-        boolean isFull;
-
-        isFull = (parkinglotStatus == volume);
-        if (isFull) {
-            return true;
-        }
-        return false;
+        return parkinglotStatus == volume;
     }
 
     public Token park(Car car) {
-        if (isFull()) return null;
+        Token token = null;
 
-        Token token = new Token();
-        token.setKey(car.getID());
-        parkingRecord.put(car.getID(), car);
-        parkinglotStatus++;
+        if (!isFull()) {
+            token = new Token();
+            token.setKey(car.getID());
+            parkingRecord.put(car.getID(), car);
+            parkinglotStatus++;
+        }
+
         return token;
     }
 
     public Car pickup(Token carTicket) {
-        Car car;
+        Car car = null;
         if (parkingRecord.containsKey(carTicket.getKey())) {
-
-            parkinglotStatus--;
             car = parkingRecord.get(carTicket.getKey());
             parkingRecord.remove(carTicket.getKey());
-        } else {
-            return null;
+            parkinglotStatus--;
         }
 
         return car;
@@ -57,7 +55,11 @@ public class Parkinglot {
         return parkingRecord;
     }
 
-    public int getStatus() {
-        return parkinglotStatus;
+    public double getVacancyRate() {
+        return getRestVolume() / (double)volume;
+    }
+
+    public int getRestVolume() {
+        return volume - parkinglotStatus;
     }
 }

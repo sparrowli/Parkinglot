@@ -3,13 +3,13 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-
 public class ParkinglotsBoySpec {
     private ParkinglotsBoy parkinglotsBoy;
 
     @Before
     public void setUp() {
         parkinglotsBoy = new ParkinglotsBoy();
+        parkinglotsBoy.setParkinglogInfo();
     }
 
     @Test
@@ -29,15 +29,16 @@ public class ParkinglotsBoySpec {
     public void should_park_in_the_third_parkinglot_if_the_first_and_second_is_ful() {
         Token token = parkinglotsBoy.park(new Car("sasd"));
         token = parkinglotsBoy.park(new Car("Panamera"));
-        token = parkinglotsBoy.park(new Car("Marsharidia"));
+        token = parkinglotsBoy.park(new Car("Maserati"));
         assertThat(token.getParkinglotKey()).isEqualTo(ParkinglotID.Space);
     }
 
     @Test
     public void should_not_park_successfully_when_parkinglot_is_ful() {
         Token token0 = parkinglotsBoy.park(new Car("panamera"));
-        Token token1 = parkinglotsBoy.park(new Car("Marsharidia"));
+        Token token1 = parkinglotsBoy.park(new Car("Maserati"));
         Token token2 = parkinglotsBoy.park(new Car("Ford"));
+        Token token3 = parkinglotsBoy.park(new Car("BTW"));
 
         Token token = parkinglotsBoy.park(new Car());
         assertThat(token).isEqualTo(null);

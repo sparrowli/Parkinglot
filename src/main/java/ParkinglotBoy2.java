@@ -1,33 +1,42 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkinglotsBoy {
+public class ParkinglotBoy2 {
     private Map<ParkinglotID, Parkinglot> parkinglotsMap;
 
-    public void setParkinglogInfo() {
+    public void setParkinglotInfo() {
         parkinglotsMap = new HashMap<>();
         for (ParkinglotID id : ParkinglotID.values()) {
+            id.setVolume(2);
             parkinglotsMap.put(id, new Parkinglot(id.getVolume()));
         }
+
     }
 
     public Token park(Car car) {
+        ParkinglotID parkinglotID = null;
         Token token = null;
-        Boolean isFull = parkinglotsMap.get(ParkinglotID.Space).isFull();
-        if (!isFull) {
-            for (ParkinglotID id : ParkinglotID.values()) {
-                token = parkinglotsMap.get(id).park(car);
-                if (token != null) {
-                    token.setParkinglotKey(id);
-                    break;
-                }
+
+        int restVolume = 0;
+        int maxVolume = 0;
+       
+        for (ParkinglotID id : ParkinglotID.values()) {
+            restVolume = parkinglotsMap.get(id).getRestVolume();
+
+            if (restVolume > maxVolume) {
+                maxVolume = restVolume;
+                parkinglotID = id;
             }
+
         }
 
+        token = parkinglotsMap.get(parkinglotID).park(car);
+        token.setParkinglotKey(parkinglotID);
         return token;
     }
 
     public Car pickup(Token token) {
+
         if (parkinglotsMap.containsKey(token.getParkinglotKey())) {
             return parkinglotsMap.get(token.getParkinglotKey()).pickup(token);
         } else {
