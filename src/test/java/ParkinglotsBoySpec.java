@@ -1,6 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 public class ParkinglotsBoySpec {
@@ -9,28 +12,33 @@ public class ParkinglotsBoySpec {
     @Before
     public void setUp() {
         parkinglotsBoy = new ParkinglotsBoy();
-        parkinglotsBoy.setParkinglogInfo();
+        Map<String, Integer> parkinglotID2Volume = new LinkedHashMap<>();
+        parkinglotID2Volume.put("Beach", 1);
+        parkinglotID2Volume.put("Moutain", 1);
+        parkinglotID2Volume.put("Space", 2);
+
+        parkinglotsBoy.setParkinglotInfo(parkinglotID2Volume);
     }
 
     @Test
     public void should_park_in_the_first_parkinglot_if_it_is_not_ful() {
         Token token = parkinglotsBoy.park(new Car("Panamera"));
-        assertThat(token.getParkinglotKey()).isEqualTo(ParkinglotID.Beach);
+        assertThat(token.getParkinglotKey()).isEqualTo("Beach");
     }
 
     @Test
     public void should_park_in_the_second_parkinglot_if_the_first_is_ful() {
         Token token1 = parkinglotsBoy.park(new Car("sasd"));
         Token token2 = parkinglotsBoy.park(new Car("Panamera"));
-        assertThat(token2.getParkinglotKey()).isEqualTo(ParkinglotID.Moutain);
+        assertThat(token2.getParkinglotKey()).isEqualTo("Moutain");
     }
 
     @Test
     public void should_park_in_the_third_parkinglot_if_the_first_and_second_is_ful() {
-        Token token = parkinglotsBoy.park(new Car("sasd"));
-        token = parkinglotsBoy.park(new Car("Panamera"));
-        token = parkinglotsBoy.park(new Car("Maserati"));
-        assertThat(token.getParkinglotKey()).isEqualTo(ParkinglotID.Space);
+        Token token1 = parkinglotsBoy.park(new Car("sasd"));
+        Token token2 = parkinglotsBoy.park(new Car("Panamera"));
+        Token token3 = parkinglotsBoy.park(new Car("Maserati"));
+        assertThat(token3.getParkinglotKey()).isEqualTo("Space");
     }
 
     @Test

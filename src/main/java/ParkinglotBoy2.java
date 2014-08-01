@@ -1,37 +1,36 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ParkinglotBoy2 {
-    private Map<ParkinglotID, Parkinglot> parkinglotsMap;
+    private Map<String, Parkinglot> parkinglotsMap;
 
-    public void setParkinglotInfo() {
-        parkinglotsMap = new HashMap<>();
-        for (ParkinglotID id : ParkinglotID.values()) {
-            id.setVolume(2);
-            parkinglotsMap.put(id, new Parkinglot(id.getVolume()));
+    public void setParkinglotInfo(Map<String, Integer> parkinglotID2Volume) {
+        parkinglotsMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : parkinglotID2Volume.entrySet()) {
+            parkinglotsMap.put(entry.getKey(), new Parkinglot(entry.getValue()));
         }
-
     }
 
     public Token park(Car car) {
-        ParkinglotID parkinglotID = null;
+        String  parkinglotID = null;
         Token token = null;
 
-        int restVolume = 0;
+        int restVolume;
         int maxVolume = 0;
-       
-        for (ParkinglotID id : ParkinglotID.values()) {
-            restVolume = parkinglotsMap.get(id).getRestVolume();
 
+        for (Map.Entry<String, Parkinglot> entry : parkinglotsMap.entrySet()) {
+            restVolume = entry.getValue().getRestVolume();
             if (restVolume > maxVolume) {
                 maxVolume = restVolume;
-                parkinglotID = id;
+                parkinglotID = entry.getKey();
             }
-
         }
 
-        token = parkinglotsMap.get(parkinglotID).park(car);
-        token.setParkinglotKey(parkinglotID);
+        if (parkinglotID != null) {
+            token = parkinglotsMap.get(parkinglotID).park(car);
+            token.setParkinglotKey(parkinglotID);
+        }
+
         return token;
     }
 

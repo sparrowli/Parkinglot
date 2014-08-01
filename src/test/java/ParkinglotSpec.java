@@ -1,3 +1,4 @@
+import com.google.common.base.Optional;
 import org.junit.Before;
 import org.junit.Test;
 

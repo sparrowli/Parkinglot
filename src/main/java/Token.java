@@ -1,9 +1,9 @@
 public class Token {
     private String key;
 
-    private ParkinglotID parkinglotKey;
+    private String parkinglotKey;
 
-    public void setParkinglotKey(ParkinglotID parkinglotKey) {
+    public void setParkinglotKey(String parkinglotKey) {
         this.parkinglotKey = parkinglotKey;
     }
 
@@ -15,7 +15,7 @@ public class Token {
         return key;
     }
 
-    public ParkinglotID getParkinglotKey() {
+    public String getParkinglotKey() {
         return parkinglotKey;
     }
 }

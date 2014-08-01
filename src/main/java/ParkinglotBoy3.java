@@ -1,36 +1,33 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ParkinglotBoy3 {
-    private HashMap<ParkinglotID, Parkinglot> parkinglotsMap;
+    private Map<String, Parkinglot> parkinglotsMap;
 
-    public void addParkinglot() {
-        parkinglotsMap = new HashMap<>();
-        int i = 1;
-        for (ParkinglotID id : ParkinglotID.values()) {
-            id.setVolume(++i);
-            parkinglotsMap.put(id, new Parkinglot(id.getVolume()));
+    public void setParkinglotInfo(Map<String, Integer> parkinglotID2Volume) {
+        parkinglotsMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : parkinglotID2Volume.entrySet()) {
+            parkinglotsMap.put(entry.getKey(), new Parkinglot(entry.getValue()));
         }
 
     }
 
     public Token park(Car car) {
-        ParkinglotID parkinglotID = null;
+        String parkinglotID = null;
         Token token = null;
 
         double highRateVacancy = 0.0;
         double rateVacancy = 0.0;
 
-        for (ParkinglotID id : ParkinglotID.values()) {
-            rateVacancy = parkinglotsMap.get(id).getVacancyRate();
-
+        for (Map.Entry<String, Parkinglot> entry : parkinglotsMap.entrySet()) {
+            rateVacancy = entry.getValue().getVacancyRate();
             if (highRateVacancy < rateVacancy) {
                 highRateVacancy = rateVacancy;
-                parkinglotID = id;
+                parkinglotID = entry.getKey();
             }
-
         }
 
-        if (highRateVacancy != 0) {
+        if (parkinglotID != null) {
             token = parkinglotsMap.get(parkinglotID).park(car);
             token.setParkinglotKey(parkinglotID);
         }
