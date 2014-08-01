@@ -1,6 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.fest.assertions.Assertions.assertThat;
 
 public class ParkinglotBoy3Spec {
@@ -9,7 +12,12 @@ public class ParkinglotBoy3Spec {
     @Before
     public void setUp() {
         parkinglotBoy3 = new ParkinglotBoy3();
-        parkinglotBoy3.addParkinglot();
+
+        Map<String, Integer> parkinglotID2Volume = new LinkedHashMap<>();
+        parkinglotID2Volume.put("Beach", 2);
+        parkinglotID2Volume.put("Moutain", 3);
+        parkinglotID2Volume.put("Space", 4);
+        parkinglotBoy3.setParkinglotInfo(parkinglotID2Volume);
     }
 
     @Test
@@ -19,11 +27,11 @@ public class ParkinglotBoy3Spec {
         Token token14 = parkinglotBoy3.park(new Car("Panamera"));
         Token token24 = parkinglotBoy3.park(new Car("Porsche"));
 
-        assertThat(token12.getParkinglotKey()).isEqualTo(ParkinglotID.Beach);
-        assertThat(token13.getParkinglotKey()).isEqualTo(ParkinglotID.Moutain);
-        assertThat(token14.getParkinglotKey()).isEqualTo(ParkinglotID.Space);
+        assertThat(token12.getParkinglotKey()).isEqualTo("Beach");
+        assertThat(token13.getParkinglotKey()).isEqualTo("Moutain");
+        assertThat(token14.getParkinglotKey()).isEqualTo("Space");
 
-        assertThat(token24.getParkinglotKey()).isEqualTo(ParkinglotID.Space);
+        assertThat(token24.getParkinglotKey()).isEqualTo("Space");
     }
 
     @Test
