@@ -3,6 +3,11 @@ import java.util.Map;
 
 public class ParkinglotsBoy {
     private Map<String, Parkinglot> parkinglotsMap;
+    private IParkinglotsSelector selector;
+
+    public ParkinglotsBoy(IParkinglotsSelector selector) {
+        this.selector = selector;
+    }
 
     public void setParkinglotInfo(Map<String, Integer> parkinglotID2Volume) {
         parkinglotsMap = new LinkedHashMap<>();
@@ -14,12 +19,7 @@ public class ParkinglotsBoy {
     public Token park(Car car) {
         Token token = null;
         String parkinglotID = null;
-        for (Map.Entry<String, Parkinglot> entry : parkinglotsMap.entrySet()) {
-            if (entry.getValue().getRestVolume() > 0) {
-                parkinglotID = entry.getKey();
-                break;
-            }
-        }
+        parkinglotID = selector.parkinglotSelector(parkinglotsMap);
 
         if (parkinglotID != null) {
             token = parkinglotsMap.get(parkinglotID).park(car);

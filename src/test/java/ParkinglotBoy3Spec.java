@@ -7,11 +7,11 @@ import java.util.Map;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class ParkinglotBoy3Spec {
-    private ParkinglotBoy3 parkinglotBoy3;
+    private ParkinglotsBoy parkinglotBoy3;
 
     @Before
     public void setUp() {
-        parkinglotBoy3 = new ParkinglotBoy3();
+        parkinglotBoy3 = new ParkinglotsBoy(new VacancyRateSelector());
 
         Map<String, Integer> parkinglotID2Volume = new LinkedHashMap<>();
         parkinglotID2Volume.put("Beach", 2);

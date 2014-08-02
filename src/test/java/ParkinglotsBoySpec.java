@@ -11,7 +11,7 @@ public class ParkinglotsBoySpec {
 
     @Before
     public void setUp() {
-        parkinglotsBoy = new ParkinglotsBoy();
+        parkinglotsBoy = new ParkinglotsBoy(new CommonSelector());
         Map<String, Integer> parkinglotID2Volume = new LinkedHashMap<>();
         parkinglotID2Volume.put("Beach", 1);
         parkinglotID2Volume.put("Moutain", 1);
